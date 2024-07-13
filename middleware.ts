@@ -2,7 +2,8 @@ import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
 export const config = {
-    matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
+    // matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
+    matcher: ['/']
 }
 
 export async function middleware(req:any) {
@@ -10,9 +11,9 @@ export async function middleware(req:any) {
 
     const { pathname } = req.nextUrl;
 
-    if (pathname.includes("/api/auth") || token) {
-        return NextResponse.next();
-    }
+    // if (pathname.includes("/api/auth") || token) {
+    //     return NextResponse.next();
+    // }
 
     if (!token && pathname !== "/login") {
         return NextResponse.redirect(new URL("/login", req.url));
