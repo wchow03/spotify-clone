@@ -49,7 +49,7 @@ export default function Dashboard() {
 			direction="horizontal"
 			className="h-screen bg-[#252525]"
 			>
-			<ResizablePanel defaultSize={15} minSize={10} maxSize={30} >
+			<ResizablePanel defaultSize={15} minSize={10} maxSize={90} >
 				<Sidebar homeClicked={homeClicked} browseClicked={browseClicked} playlistClicked={playlistClicked} />
 			</ResizablePanel>
 			<ResizableHandle className="bg-black pr-2" />

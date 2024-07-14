@@ -47,16 +47,16 @@ function Sidebar({homeClicked, browseClicked, playlistClicked}:{homeClicked:any,
                 <Logout />
 
                 <div onClick={homeClicked} className='cursor-pointer rounded hover:bg-[#c7c7c7] hover:bg-opacity-5' >
-                    <div className='p-2' >
+                    <div className='p-2 flex' >
                         <HomeOutlinedIcon />
-                        <span className='pl-3 font-bold' >Home</span>
+                        <span className='pl-3 font-bold text-nowrap' >Home</span>
                     </div>
                 </div>
 
                 <div onClick={browseClicked} className='cursor-pointer rounded hover:bg-[#c7c7c7] hover:bg-opacity-5' >
-                    <div className='p-2' >
+                    <div className='p-2 flex' >
                         <SearchOutlinedIcon />
-                        <span className='pl-3 font-bold' >Search</span>
+                        <span className='pl-3 font-bold text-nowrap' >Search</span>
                     </div>
                 </div>
 

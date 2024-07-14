@@ -7,26 +7,43 @@ import MediaControl from './MediaControl';
 function Player({trackClicked}:{trackClicked:any}) {
 	const spotifyApi = useSpotify();
 	const [track, setTrack] = useState<any>();
-	const [songChanged, setSongChanged] = useState(false);
+	const [skip, setSkip] = useState(false);
     const [songFinished, setsongFinished] = useState(false);
+
+	// Fetches currently playing track
+	const fetchCurrentlyPlaying = (retryCount = 0) => {
+		fetch("https://api.spotify.com/v1/me/player/currently-playing", {
+			method: 'GET',
+			headers: { Authorization: `Bearer ${spotifyApi.getAccessToken()}` }
+		})
+		.then(result => {
+			if (!result.ok) {
+				throw new Error("JSON PARSE ERROR IN PLAYER");
+			}
+			return result.json()
+		})
+		.then(data => {
+			setTrack(data.item);
+		})
+		.catch(error => {
+			console.log(error);
+			if (retryCount < 5) {
+				setTimeout(() => fetchCurrentlyPlaying(retryCount+1), 2000);
+			}
+		});
+	}
 
 	// Add a setTimeout because when we play a song then fetch the currently playing there may be a race condition so fetching the current song may not be accurate
 	useEffect(() => {
 		setTimeout(() => {
-			fetch("https://api.spotify.com/v1/me/player/currently-playing", {
-				method: 'GET',
-				headers: { Authorization: `Bearer ${spotifyApi.getAccessToken()}` }
-			})
-			.then(result => result.json())
-			.then(data => {
-				setTrack(data.item);
-			});
+			fetchCurrentlyPlaying();
 		}, 500)
-	}, [trackClicked, songChanged, songFinished])
+		fetchCurrentlyPlaying();
+	}, [trackClicked, skip, songFinished])
 
 	const updateTrack = (nextTrack:any) => {
 		setTrack(nextTrack);
-		setSongChanged(!songChanged);
+		setSkip(!skip);
 	};
 
 	const updateSongFinished = () => {

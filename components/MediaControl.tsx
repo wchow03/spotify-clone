@@ -22,19 +22,31 @@ function MediaControl({updateTrack, trackClicked, songFinished, updateSongFinish
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(40);
 
-    const fetchPlayerState = () => {
+    // Fetches current player state
+    const fetchPlayerState = (retryCount = 0) => {
         fetch("https://api.spotify.com/v1/me/player", {
             method: 'GET',
             headers: { Authorization: `Bearer ${spotifyApi.getAccessToken()}` }
         })
-        .then(result => result.json())
+        .then(result => {
+            if (!result.ok) {
+                throw new Error("JSON PARSE ERROR IN MEDIACONTROLS");
+            }
+            return result.json();
+        })
         .then(data => {
-            if (data) {
+            if (data && data.item.duration_ms) {
                 setShuffle(data.shuffle_state);
                 setPlay(data.is_playing);
                 setDuration(data.item.duration_ms);
                 setPosition(data.progress_ms);
                 setVolume(data.device.volume_percent);
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            if (retryCount < 5) {
+                setTimeout(() => fetchPlayerState(retryCount+1), 2000)
             }
         });
     };
@@ -139,23 +151,23 @@ function MediaControl({updateTrack, trackClicked, songFinished, updateSongFinish
                 <div className='flex items-center justify-center h-14' >
                     {
                         shuffle ?
-                        <ShuffleOnIcon className='cursor-pointer text-neutral-400 hover:text-white' fontSize='small' onClick={handleShuffleClick} />
-                        : <ShuffleIcon className='cursor-pointer text-neutral-400 hover:text-white' fontSize='small' onClick={handleShuffleClick} />
+                        <ShuffleOnIcon className='cursor-pointer text-neutral-400 hover:text-white invisible md:visible' fontSize='small' onClick={handleShuffleClick} />
+                        : <ShuffleIcon className='cursor-pointer text-neutral-400 hover:text-white invisible md:visible' fontSize='small' onClick={handleShuffleClick} />
                         
                     }
 
-                    <SkipPreviousIcon className='cursor-pointer ml-3 mr-3 text-neutral-400 hover:text-white' fontSize='large' onClick={handleSkipPreviousClick} />
+                    <SkipPreviousIcon className='cursor-pointer ml-3 mr-3 text-neutral-400 hover:text-white invisible md:visible' fontSize='large' onClick={handleSkipPreviousClick} />
 
                     {
                         play ?
-                        <PauseCircleFilledOutlinedIcon className='cursor-pointer hover:text-5xl w-11' sx={{fontSize: 40}} onClick={handlePlayClick} /> 
-                        : <PlayCircleFilledOutlinedIcon className='cursor-pointer hover:text-5xl w-11' sx={{fontSize: 40}} onClick={handlePlayClick} />
+                        <PauseCircleFilledOutlinedIcon className='cursor-pointer hover:text-5xl w-11 invisible md:visible' sx={{fontSize: 40}} onClick={handlePlayClick} /> 
+                        : <PlayCircleFilledOutlinedIcon className='cursor-pointer hover:text-5xl w-11 invisible md:visible' sx={{fontSize: 40}} onClick={handlePlayClick} />
                     }
 
                     <SkipNextIcon className='cursor-pointer ml-3 mr-3 text-neutral-400 hover:text-white' fontSize='large' onClick={handleSkipNextClick} />
                 </div>
 
-                <div className='flex items-center'>
+                <div className='flex items-center invisible md:visible'>
                     <p className='text-sm text-neutral-400 w-14' >{getDuration(position ? position : 0)}</p>
                     <Slider aria-label="Volume" size='small' 
                             className='text-white w-96'
@@ -171,7 +183,7 @@ function MediaControl({updateTrack, trackClicked, songFinished, updateSongFinish
                 </div>
             </div>
 
-            <div className='flex w-36 items-center' >
+            <div className='flex w-36 items-center invisible md:visible' >
                 <VolumeDownIcon className='cursor-pointer mr-2' />
                 <Slider aria-label="Volume" size='small' 
                         className='text-white' 

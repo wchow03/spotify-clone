@@ -18,9 +18,9 @@ function Logout() {
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <div>
-                    <div className='p-2 cursor-pointer rounded hover:bg-[#c7c7c7] hover:bg-opacity-5' >
+                    <div className='flex p-2 cursor-pointer rounded hover:bg-[#c7c7c7] hover:bg-opacity-5' >
                         <LogoutOutlinedIcon />
-                        <span className='pl-3 font-bold' >Logout</span>
+                        <span className='pl-3 font-bold text-nowrap' >Logout</span>
                     </div>
                 </div>
             </AlertDialogTrigger>

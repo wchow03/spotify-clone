@@ -26,7 +26,7 @@ function Track({track, index, updateTrackClicked, playlistUri}:{track:any, index
     return (
         <div className='grid md:grid-cols-2 hover:bg-[#c7c7c7] hover:bg-opacity-5 cursor-pointer p-1 rounded-md' onDoubleClick={handleDoubleClick} >
             <div className='flex space-x-4 items-center overflow-hidden' >
-                <p className='text-neutral-400 w-6' >{index+1}</p>
+                <p className='text-neutral-400 w-7' >{index+1}</p>
                 <img src={track.track.album.images[0].url} alt='playlist picture' width={40} height={40} className='rounded-md' />
                 <div className='min-w-0' >
                     <p className='truncate'>{track.track.name}</p>
