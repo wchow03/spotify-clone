@@ -20,7 +20,7 @@ function Player({trackClicked}:{trackClicked:any}) {
 			if (!result.ok) {
 				throw new Error("JSON PARSE ERROR IN PLAYER");
 			}
-			return result.json()
+			return result.json();
 		})
 		.then(data => {
 			setTrack(data.item);
@@ -38,7 +38,6 @@ function Player({trackClicked}:{trackClicked:any}) {
 		setTimeout(() => {
 			fetchCurrentlyPlaying();
 		}, 500)
-		fetchCurrentlyPlaying();
 	}, [trackClicked, skip, songFinished])
 
 	const updateTrack = (nextTrack:any) => {
