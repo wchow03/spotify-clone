@@ -61,10 +61,10 @@ function PlaylistPage({playlistId, updateTrackClicked}:{playlistId:any, updateTr
 			playlist &&
 			playlist.images &&
 			<>
-				<div className={`md:flex items-end p-10 bg-gradient-to-b ${randomColour} bg-[#252525]`} >
+				<div className={`flex items-end p-10 bg-gradient-to-b ${randomColour} bg-[#252525]`} >
 					<img src={playlist.images[0].url} alt='playlist picture' width={250} height={250} className='rounded-lg' />
 					<div className='pl-6 flex-nowrap' >
-						<h1 className='font-bold lg:text-8xl text-4xl' >{playlist.name}</h1>
+						<h1 className='font-bold text-4xl' >{playlist.name}</h1>
 						<p className='pt-3 text-neutral-400' >{playlist.tracks.total} songs</p>
 					</div>
 				</div>
