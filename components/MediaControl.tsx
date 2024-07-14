@@ -44,7 +44,7 @@ function MediaControl({updateTrack, trackClicked, songFinished, updateSongFinish
         setTimeout(() => {
             fetchPlayerState();
         }, 500);
-    }, [trackClicked, skip, songFinished, spotifyApi]);
+    }, [trackClicked, skip, songFinished]);
 
     // Handles updating the position of the song each second
     useEffect(() => {
