@@ -11,7 +11,7 @@ function Player({trackClicked}:{trackClicked:any}) {
     const [songFinished, setsongFinished] = useState(false);
 
 	// Fetches currently playing track
-	const fetchCurrentlyPlaying = (retryCount = 0) => {
+	const fetchCurrentlyPlaying = () => {
 		fetch("https://api.spotify.com/v1/me/player/currently-playing", {
 			method: 'GET',
 			headers: { Authorization: `Bearer ${spotifyApi.getAccessToken()}` }
@@ -27,9 +27,6 @@ function Player({trackClicked}:{trackClicked:any}) {
 		})
 		.catch(error => {
 			console.log(error);
-			if (retryCount < 5) {
-				setTimeout(() => fetchCurrentlyPlaying(retryCount+1), 2000);
-			}
 		});
 	}
 

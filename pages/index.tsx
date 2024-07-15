@@ -53,7 +53,7 @@ export default function Dashboard() {
 				<Sidebar homeClicked={homeClicked} browseClicked={browseClicked} playlistClicked={playlistClicked} />
 			</ResizablePanel>
 			<ResizableHandle className="bg-black pr-2" />
-			<ResizablePanel defaultSize={90}>
+			<ResizablePanel defaultSize={85}>
 				<div className="h-screen relative" >
 					{home && <HomePage />}
 					{browse && <BrowsePage />}

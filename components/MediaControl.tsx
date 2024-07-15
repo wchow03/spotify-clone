@@ -21,9 +21,10 @@ function MediaControl({updateTrack, trackClicked, songFinished, updateSongFinish
     const [userChangePosition, setUserChangePosition] = useState(false);
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(40);
+    const [player, setPlayer] = useState(false);
 
     // Fetches current player state
-    const fetchPlayerState = (retryCount = 0) => {
+    const fetchPlayerState = () => {
         fetch("https://api.spotify.com/v1/me/player", {
             method: 'GET',
             headers: { Authorization: `Bearer ${spotifyApi.getAccessToken()}` }
@@ -32,6 +33,7 @@ function MediaControl({updateTrack, trackClicked, songFinished, updateSongFinish
             if (!result.ok) {
                 throw new Error("JSON PARSE ERROR IN MEDIACONTROLS");
             }
+            setPlayer(true);
             return result.json();
         })
         .then(data => {
@@ -45,9 +47,6 @@ function MediaControl({updateTrack, trackClicked, songFinished, updateSongFinish
         })
         .catch(error => {
             console.log(error);
-            if (retryCount < 5) {
-                setTimeout(() => fetchPlayerState(retryCount+1), 2000)
-            }
         });
     };
 
@@ -134,7 +133,9 @@ function MediaControl({updateTrack, trackClicked, songFinished, updateSongFinish
     };
 
     useEffect(() => {
-        debouncedAdjustVolume(volume);
+        if (player) {
+            debouncedAdjustVolume(volume);
+        }
     }, [volume]);
 
     // Create a debounce to wait 500ms before sending a volume change request to avoid making to many requests at once
