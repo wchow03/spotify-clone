@@ -75,7 +75,9 @@ function MediaControl({updateTrack, trackClicked, songFinished, updateSongFinish
     }, [play, duration, position, songFinished]);
 
     useEffect(() => {
-        debouncedAdjustTrackPosition(position);
+        if (position) {
+            debouncedAdjustTrackPosition(position);
+        }
     }, [userChangePosition]);
 
     // Create a debounce to wait 500ms before sending a position change request to avoid making to many requests at once
@@ -147,7 +149,7 @@ function MediaControl({updateTrack, trackClicked, songFinished, updateSongFinish
 
     return (
         <>
-            <div>
+            <div className='invisible lg:visible' >
                 <div className='flex items-center justify-center h-14' >
                     {
                         shuffle ?
@@ -183,7 +185,7 @@ function MediaControl({updateTrack, trackClicked, songFinished, updateSongFinish
                 </div>
             </div>
 
-            <div className='flex w-36 items-center' >
+            <div className='flex w-36 items-center invisible lg:visible' >
                 <VolumeDownIcon className='cursor-pointer mr-2' />
                 <Slider aria-label="Volume" size='small' 
                         className='text-white' 
