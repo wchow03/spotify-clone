@@ -54,7 +54,7 @@ function MediaControl({updateTrack, trackClicked, songFinished, updateSongFinish
     useEffect(() => {
         setTimeout(() => {
             fetchPlayerState();
-        }, 500);
+        }, 800);
     }, [trackClicked, skip, songFinished]);
 
     // Handles updating the position of the song each second

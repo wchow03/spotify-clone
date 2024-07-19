@@ -55,9 +55,10 @@ export default function Dashboard() {
 			<ResizableHandle className="bg-black pr-2" />
 			<ResizablePanel defaultSize={85}>
 				<div className="h-screen relative" >
-					{home && <HomePage />}
+					{home && <HomePage playlistClicked={playlistClicked} />}
 					{browse && <BrowsePage />}
-					{!home && !browse && playlist && <PlaylistPage playlistId={playlistId} updateTrackClicked={updateTrackClicked} />}
+					{playlist && <PlaylistPage playlistId={playlistId} updateTrackClicked={updateTrackClicked} />}
+					{/* artist clicked, album clicked */}
 					<Player trackClicked={trackClicked} />
 				</div>
 			</ResizablePanel>

@@ -27,31 +27,31 @@ function PlaylistPage({playlistId, updateTrackClicked}:{playlistId:any, updateTr
 	// playlist
 	useEffect(() => {
 		if (spotifyApi.getAccessToken()) {
-		fetch(`https://api.spotify.com/v1/playlists/${playlistId}?fields=name%2Cimages%2Ctracks%2Curi`, {
-			method: 'GET',
-			headers: { Authorization: `Bearer ${spotifyApi.getAccessToken()}` }
-		})
-		.then(result => result.json())
-		.then(async(data) => {
-			let tracks = data.tracks.items;
-			let nextUrl = data.tracks.next;
-			let offset = 1;
-			
-			// If playlist has more than 100 songs we need to loop through the pages to get all the songs
-			while (nextUrl) {
-				const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=100&offset=${offset*100}`, {
-					method: 'GET',
-					headers: { Authorization: `Bearer ${spotifyApi.getAccessToken()}` }
-				});
-				const nextTracks = await response.json();
-				tracks = tracks.concat(nextTracks.items);
-				offset++;
-				nextUrl = nextTracks.next;
-			}
-			
-			setPlaylist(data);
-			setTracks(tracks);
-		});
+			fetch(`https://api.spotify.com/v1/playlists/${playlistId}?fields=name%2Cimages%2Ctracks%2Curi`, {
+				method: 'GET',
+				headers: { Authorization: `Bearer ${spotifyApi.getAccessToken()}` }
+			})
+			.then(result => result.json())
+			.then(async(data) => {
+				let tracks = data.tracks.items;
+				let nextUrl = data.tracks.next;
+				let offset = 1;
+				
+				// If playlist has more than 100 songs we need to loop through the pages to get all the songs
+				while (nextUrl) {
+					const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=100&offset=${offset*100}`, {
+						method: 'GET',
+						headers: { Authorization: `Bearer ${spotifyApi.getAccessToken()}` }
+					});
+					const nextTracks = await response.json();
+					tracks = tracks.concat(nextTracks.items);
+					offset++;
+					nextUrl = nextTracks.next;
+				}
+				
+				setPlaylist(data);
+				setTracks(tracks);
+			});
 		}
 	}, [playlistId, spotifyApi]);
 
