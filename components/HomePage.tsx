@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-function HomePage({ playlistClicked }:{ playlistClicked:any }) {
+function HomePage({ playlistClicked, updateArtistClicked }:{ playlistClicked:any, updateArtistClicked:any }) {
 
 	const spotifyApi = useSpotify();
 	const { data:session, status } = useSession();
@@ -60,10 +60,6 @@ function HomePage({ playlistClicked }:{ playlistClicked:any }) {
 			setArtists(tempArtists);
 		});
 	};
-
-	console.log("Featured Playlists", featuredPlaylists);
-	console.log("Followed Artists", artists);
-	
 	
 	useEffect(() => {
 		fetchFeaturedPlaylists();
@@ -76,8 +72,11 @@ function HomePage({ playlistClicked }:{ playlistClicked:any }) {
 				{
 					artists &&
 					artists.map((artist:any) => (
-						<div key={artist.id} className="text-center cursor-pointer hover:bg-[#c7c7c7] hover:bg-opacity-5 rounded mt-2" >
-							<Image src={artist.images[0].url} alt="artist profile" width={125} height={100} className="rounded-full mt-5 pl-2 pr-2 w-32" />
+						<div key={artist.id} 
+							className="text-center cursor-pointer hover:bg-[#c7c7c7] hover:bg-opacity-5 rounded mt-2"
+							onClick={() => updateArtistClicked(artist.id)}
+						>
+							<Image src={artist.images[0].url} alt="artist profile" width={125} height={125} className="rounded-full mt-5 pl-2 pr-2 w-32" />
 							<h1 className="text-nowrap truncate" >{artist.name}</h1>
 						</div>
 					))

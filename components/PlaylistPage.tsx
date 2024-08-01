@@ -77,8 +77,8 @@ function PlaylistPage({playlistId, updateTrackClicked}:{playlistId:any, updateTr
 
 				<div className='bg-opacity-20 bg-[#252525] pl-4' >
 					{
-						tracks.map((track, index) => (
-							<Track track={track} index={index} key={index} updateTrackClicked={updateTrackClicked} playlistUri={playlist.uri} />
+						tracks.map((track:any, index) => (
+							<Track track={track?.track} index={index+1} key={index+1} updateTrackClicked={updateTrackClicked} playlistUri={playlist.uri} offset={null} />
 						))
 					}
 				</div>
