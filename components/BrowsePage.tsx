@@ -18,7 +18,7 @@ function Browse({updateTrackClicked, updateAlbumClicked, playlistClicked, update
 	const debouncedSearch = useCallback(
 		debounce((search: string) => {
 			setSearch(search);
-			fetch(`https://api.spotify.com/v1/search?q=${search}&type=album%2Cplaylist%2Ctrack%2Cartist&limit=10`, {
+			fetch(`https://api.spotify.com/v1/search?q=${search}&type=album%2Cplaylist%2Ctrack%2Cartist&limit=15`, {
 				method: 'GET',
 				headers: { Authorization: `Bearer ${spotifyApi.getAccessToken()}` }
 			})
@@ -40,27 +40,35 @@ function Browse({updateTrackClicked, updateAlbumClicked, playlistClicked, update
 				results.playlists &&
 				results.tracks &&
 				<>
-					<div>
+					<h1 className='font-bold text-3xl mb-2' >Songs</h1>
+					<div className='mb-5' >
 						{
 							results.tracks.items.map((track:any, index:number) => (
 								<Track track={track} offset={track.track_number} index={index+1} key={index+1} updateTrackClicked={updateTrackClicked} playlistUri={track.album.uri} />
 							))
 						}
 					</div>
-					<div className='flex flex-wrap' >
+
+					<h1 className='font-bold text-3xl' >Artists</h1>
+					<div className='flex flex-wrap mb-5' >
 						{
 							results.artists.items.map((artist:any) => (
 								<div key={artist.id} 
 									className="text-center cursor-pointer hover:bg-[#c7c7c7] hover:bg-opacity-5 rounded-md pb-2"
 									onClick={() => updateArtistClicked(artist.id)}
 								>
-									<Image src={artist.images[0].url} alt="artist profile" width={125} height={125} className="rounded-full mt-5 pl-2 pr-2 w-32" />
+									{
+										artist.images.length > 0 &&
+										<Image src={artist.images[0].url} alt="artist profile" width={125} height={125} className="rounded-full mt-5 pl-2 pr-2 w-32" />
+									}
 									<h1 className="text-nowrap truncate" >{artist.name}</h1>
 								</div>
 							))
 						}
 					</div>
-					<div className='flex flex-wrap' >
+
+					<h1 className='font-bold text-3xl' >Albums</h1>
+					<div className='flex flex-wrap mb-5' >
 						{
 							results.albums.items.map((album:any, index:number) => (
 								<div className="p-5 w-52 hover:bg-[#c7c7c7] hover:bg-opacity-5 cursor-pointer rounded-md" key={index}
@@ -72,6 +80,8 @@ function Browse({updateTrackClicked, updateAlbumClicked, playlistClicked, update
 							))
 						}
 					</div>
+
+					<h1 className='font-bold text-3xl' >Playlists</h1>
 					<div className='flex flex-wrap' >
 						{
 							results.playlists.items.map((playlist:any) => (

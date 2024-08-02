@@ -48,7 +48,10 @@ function ArtistPage({artistID, updateTrackClicked, updateAlbumClicked}:{artistID
             {
                 artist &&
                 <div className="flex items-end mb-5 ml-4" >
-                    <Image src={artist.images[0].url} alt="artist profile" width={200} height={200} className="rounded-full mt-5 pl-2 pr-2" />
+                    {
+                        artist.images.length > 0 &&
+                        <Image src={artist.images[0].url} alt="artist profile" width={200} height={200} className="rounded-full mt-5 pl-2 pr-2" />
+                    }
                     <h1 className="text-7xl font-bold pl-2" >{artist.name}</h1>
                 </div>
             }
@@ -67,7 +70,10 @@ function ArtistPage({artistID, updateTrackClicked, updateAlbumClicked}:{artistID
                         <div className="p-5 w-52 hover:bg-[#c7c7c7] hover:bg-opacity-5 cursor-pointer rounded-md" key={index}
                             onClick={() => updateAlbumClicked(album.id)}
                         >
-                            <Image src={album.images[0].url} alt="album cover" width={150} height={150} className="rounded" />
+                            {
+                                album.images.length > 0 &&
+                                <Image src={album.images[0].url} alt="album cover" width={150} height={150} className="rounded" />
+                            }
                             <h1 className="truncate text-nowrap pt-2" >{album.name}</h1>
                         </div>
                     ))
