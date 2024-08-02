@@ -67,13 +67,13 @@ function HomePage({ playlistClicked, updateArtistClicked }:{ playlistClicked:any
 	}, [spotifyApi, session])
 
 	return (
-		<div className="h-screen overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-neutral-700 text-white" >
-			<div className="flex flex-wrap pl-2" >
+		<div className="h-screen overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-neutral-700 text-white pb-40" >
+			<div className="flex flex-wrap pl-2 mt-2" >
 				{
 					artists &&
 					artists.map((artist:any) => (
 						<div key={artist.id} 
-							className="text-center cursor-pointer hover:bg-[#c7c7c7] hover:bg-opacity-5 rounded mt-2"
+							className="text-center cursor-pointer hover:bg-[#c7c7c7] hover:bg-opacity-5 rounded-md pb-2"
 							onClick={() => updateArtistClicked(artist.id)}
 						>
 							<Image src={artist.images[0].url} alt="artist profile" width={125} height={125} className="rounded-full mt-5 pl-2 pr-2 w-32" />
@@ -82,15 +82,15 @@ function HomePage({ playlistClicked, updateArtistClicked }:{ playlistClicked:any
 					))
 				}
 			</div>
-			<div className='flex flex-wrap pb-40 pl-2'>
+			<div className='flex flex-wrap pl-2'>
 				{
 					featuredPlaylists &&
 					featuredPlaylists.map((playlist:any) => (
-						<div className="w-60 mt-5 pl-2 pt-2 cursor-pointer hover:bg-[#c7c7c7] hover:bg-opacity-5 rounded" 
+						<div className="w-52 p-5 cursor-pointer hover:bg-[#c7c7c7] hover:bg-opacity-5 rounded-md" 
 							key={playlist.id}
 							onClick={() => playlistClicked(playlist.id)}
 						>
-							<Image src={playlist.images[0].url} alt='playlist picture' width={125} height={125} className='rounded-md' />
+							<Image src={playlist.images[0].url} alt='playlist picture' width={150} height={150} className='rounded-md' />
 							<h1 className="text-nowrap truncate" >{playlist.name}</h1>
 						</div>
 					))

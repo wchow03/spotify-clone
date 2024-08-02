@@ -4,7 +4,7 @@ import Image from "next/image";
 import Track from './Track';
 
 
-function ArtistPage({artistID, updateTrackClicked}:{artistID:any, updateTrackClicked:any}) {
+function ArtistPage({artistID, updateTrackClicked, updateAlbumClicked}:{artistID:any, updateTrackClicked:any, updateAlbumClicked:any}) {
     const spotifyApi = useSpotify();
     const [artist, setArtist] = useState<any>(null);
     const [topTracks, setTopTracks] = useState([]);
@@ -41,12 +41,7 @@ function ArtistPage({artistID, updateTrackClicked}:{artistID:any, updateTrackCli
         fetchArtist();
         fetchTopTracks();
         fetchAlbums();
-    }, [artistID]);
-
-    console.log(artistID);
-    console.log(albums);
-    
-    
+    }, [spotifyApi, artistID]);
     
     return (
         <div className="text-white pb-36 h-screen overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-neutral-700" >
@@ -57,10 +52,24 @@ function ArtistPage({artistID, updateTrackClicked}:{artistID:any, updateTrackCli
                     <h1 className="text-7xl font-bold pl-2" >{artist.name}</h1>
                 </div>
             }
-            <div className='bg-opacity-20 bg-[#252525] pl-4' >
+            <div className="pl-4" >
                 {
+                    topTracks && 
                     topTracks.map((track:any, index) => (
                         <Track track={track} offset={track.track_number} index={index+1} key={index+1} updateTrackClicked={updateTrackClicked} playlistUri={track.album.uri} />
+                    ))
+                }
+            </div>
+            <div className="flex flex-wrap pl-4" >
+                {
+                    albums &&
+                    albums.map((album:any, index:number) => (
+                        <div className="p-5 w-52 hover:bg-[#c7c7c7] hover:bg-opacity-5 cursor-pointer rounded-md" key={index}
+                            onClick={() => updateAlbumClicked(album.id)}
+                        >
+                            <Image src={album.images[0].url} alt="album cover" width={150} height={150} className="rounded" />
+                            <h1 className="truncate text-nowrap pt-2" >{album.name}</h1>
+                        </div>
                     ))
                 }
             </div>
